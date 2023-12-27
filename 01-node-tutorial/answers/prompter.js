@@ -20,17 +20,22 @@ const getBody = (req, callback) => {
   });
 };
 
-// here, you could declare one or more variables to store what comes back from the form.
 let item = "Enter something below.";
+let itemTwo = "What's your favorite animal?";
 
-// here, you can change the form below to modify the input fields and what is displayed.
-// This is just ordinary html with string interpolation.
 const form = () => {
   return `
   <body>
   <p>${item}</p>
   <form method="POST">
   <input name="item"></input>
+  <label for="animals">Choose an animal:</label>
+  <select name="animals" id="animals">
+    <option value="cat">Cat</option>
+    <option value="dog">Dog</option>
+    <option value="dolphin">Dolphin</option>
+    <option value="snake">Snake</option>
+  </select> 
   <button type="submit">Submit</button>
   </form>
   </body>
@@ -43,13 +48,12 @@ const server = http.createServer((req, res) => {
   if (req.method === "POST") {
     getBody(req, (body) => {
       console.log("The body of the post is ", body);
-      // here, you can add your own logic
+      console.log("The user's favorite animal is a", body.animals, )
       if (body["item"]) {
         item = body["item"];
       } else {
         item = "Nothing was entered.";
       }
-      // Your code changes would end here
       res.writeHead(303, {
         Location: "/",
       });
